@@ -34,4 +34,4 @@ mv existing-file-list directory
 28.	The cp utility works in the same way mv does, except it makes copies of the existing file-
 list in the specified directory.
 29.	mv: Moves a Directory
-30. 	touch:
+30. touch: tocreate a file 
