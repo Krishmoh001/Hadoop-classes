@@ -1,0 +1,39 @@
+->hive 
+#getting inside the hive 
+
+->show databases;
+#printing databases if any exists
+
+->create database if not exists bda01;
+#creating new database if none exists
+
+->Use bda01;
+#using the same 
+
+->create table if not exists emp(empno int, ename string, sal float,dpno int) row format delimited fields terminated by ',’;
+#creating a table emp 
+
+->describe emp;
+#describes the schema of table 
+
+->load data local inpath '/home/bda27/Hadoopdata/empdata.csv' into table emp;
+#loading data from local path
+
+->Select * from emp;
+#printing the content of table 
+
+->create external table  ext_emp1(empno int, ename string, sal float, dpno int) row format delimited fields terminated by ',’ location '/user/data/';
+#creating an external table with location from hdfs path 
+
+->create external table  ext_emp2(empno int, ename string, sal float,dpno int) row format delimited fields terminated by ‘,’;
+->load data local inpath '/user/bda27/Hadoopdata/empdata.csv' into table ext_emp2;
+#creating an external table and adding the details through local path 
+
+->set hive.exec.dynamic.partition.mode;
+->set hive.exec.dynamic.partition.mode=nonstrict;
+
+->create external table emp_dept (empno int, ename string, sal float) partitioned by (dpno int) row format delimited fields terminated by ',';
+->insert into table emp_dept partition(dpno) select * from emp;
+#creating the partitio and inserting the values 
+
+
