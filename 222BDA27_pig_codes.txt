@@ -1,0 +1,42 @@
+#copy files to read
+->hadoop fs -copyFromLocal emp.csv pig/emp.csv 
+
+#Load Data
+
+ -> dfA = load '/user/data/pig/empdata.csv' using PigStorage(',') as (eid:int,ename:chararray,epos:chararray,esal:int,edpno:int);
+
+->Dump dfA;
+
+->dfA2 = load '/user/root/pig/emp.csv’;
+
+->describe A2;
+
+->dfB = filter dfA by edpno==20;
+
+->dfB2 = filter dfA by edpno==20 and epos=='MANAGER’,
+
+->dfC = limit dfB 3;
+
+->dfD = order dfC by esal desc;
+
+#Transform (by column)
+
+#Select existing column
+->dfE = foreach dfA generate eid;
+
+#Create new column
+dfF = foreach dfA generate *,esal*5 as Incentive;
+
+#Transform columns
+dfG = foreach dfA generate SUBSTRING(ename,0,4);
+
+->dfH = foreach dfA generate $0,$1;
+->dfI = group dfA by edpno;
+->dfJ = foreach dfI generate group as edpno, COUNT($1) as count;
+->dfL = group dfA by (edpno, epos)
+
+->SPLIT dfA into dfB if edpno==10, dfC if edpno==20, dfD if epos=='MANAGER';
+
+#storing the data 
+->store D into '/user/data/pig/pigout1’ using PigStorage(',’);
+
